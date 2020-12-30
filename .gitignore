@@ -1,0 +1,4 @@
+.virtualenv
+.vscode
+env.yaml
+slack-alerts/test_resources

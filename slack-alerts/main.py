@@ -28,7 +28,7 @@ class Severity(IntEnum):
     EMERGENCY = 800  # One or more systems are unusable.
 
 
-os.environ['SLACK_WEBHOOK']
+slack_webhook = os.environ['SLACK_WEBHOOK']
 
 
 def _format_message(message_info):

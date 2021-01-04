@@ -5,7 +5,7 @@ This cloud function will read all messages from a Pub/Sub topic and generate sla
 ### tl;dr
 - One or more [log sinks](https://console.cloud.google.com/logs/router?project=plaidcloud-io) publish log messages to a [Pub/Sub topic](https://console.cloud.google.com/cloudpubsub/topic/detail/alerts?project=plaidcloud-io).
     - [Logs explorer](https://console.cloud.google.com/logs/query?project=plaidcloud-io&query=%0A) has a [query builder](https://cloud.google.com/logging/docs/view/building-queries) that can be leveraged to write useful log queries. 
-    - These [log queries](https://cloud.google.com/logging/docs/view/advanced-queries) can then be copy/pasted into the [logs filter](https://cloud.google.com/logging/docs/export#sink-terms) for each log sink to filter out irrelevant logs.
+    - These [log queries](https://cloud.google.com/logging/docs/view/advanced-queries) can then be copy/pasted into the [logs filter](https://cloud.google.com/logging/docs/export#sink-terms) for each log sink to include only relevant logs.
 - [`slack-alerts`](https://console.cloud.google.com/functions/details/us-central1/slack-alerts?project=plaidcloud-io) cloud function then subscribes to this Pub/Sub topic to publish a message to Slack.
 - See [How to Use](#how-to-use) below for info on setting up and installing this cloud function.
 

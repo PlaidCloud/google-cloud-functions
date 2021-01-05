@@ -6,7 +6,7 @@ This cloud function will read all messages from a Pub/Sub topic and generate sla
 - One or more [log sinks](https://console.cloud.google.com/logs/router?project=plaidcloud-io) publish log messages to a [Pub/Sub topic](https://console.cloud.google.com/cloudpubsub/topic/detail/alerts?project=plaidcloud-io).
     - [Logs explorer](https://console.cloud.google.com/logs/query?project=plaidcloud-io&query=%0A) has a [query builder](https://cloud.google.com/logging/docs/view/building-queries) that can be leveraged to write useful log queries. 
     - These [log queries](https://cloud.google.com/logging/docs/view/advanced-queries) can then be copy/pasted into the [logs filter](https://cloud.google.com/logging/docs/export#sink-terms) for each log sink to include only relevant logs.
-- [`slack-alerts`](https://console.cloud.google.com/functions/details/us-central1/slack-alerts?project=plaidcloud-io) cloud function then subscribes to this Pub/Sub topic to publish each log entry as a Slack message.
+- [`slack-alerts`](https://console.cloud.google.com/functions/details/us-central1/slack-alerts?project=plaidcloud-io) cloud function then subscribes to this Pub/Sub topic, posting each log entry as a Slack message.
 - See [How to Use](#how-to-use) below for info on setting up and installing this cloud function for use in your GCP setup.
 
 ### How Alerts are Gathered
@@ -24,10 +24,11 @@ As a cloud function, `slack-alerts` is configured to subscribe to a Pub/Sub topi
 - Fork and clone this repo.
 - Add an `env.yaml` file under `slack-alerts` directory.
     - The [structure of this file](https://cloud.google.com/functions/docs/env-var) is flat and entirely key-value, where the keys are the env var names and the values are their values.
-    - `SLACK_WEBHOOK` is a key you must add to this file for posting to work:
-        - `SLACK_WEBHOOK: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`
+    - `SLACK_WEBHOOK` must be specified for posting to work. Without a valid webhook, this function will fail.
+        - i.e. `SLACK_WEBHOOK: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`
 - Run the command in `deploy.sh` to publish your cloud function, editing it as needed for your application.
 - For testing locally:
     - Install `requirements.txt` using `pip install -r requirements.txt` (preferably in a virtualenv).
     - Add a `test_resources` directory under `slack-alerts`.
     - Add any number of JSON files to `test_resources` dir that each contain a single sample log entry exported from Logs Explorer.
+    - run `python main.py`

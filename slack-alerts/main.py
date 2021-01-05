@@ -28,7 +28,7 @@ class Severity(IntEnum):
     EMERGENCY = 800  # One or more systems are unusable.
 
 
-slack_webhook = os.environ['SLACK_WEBHOOK']
+slack_webhook = os.environ.get('SLACK_WEBHOOK')
 
 
 def _format_message(message_info):
@@ -36,12 +36,6 @@ def _format_message(message_info):
 
     for key, value in message_info.items():
         message_template += LIST_TEMPLATE.format(label=key, item=value) + '\n'
-        print(message_template)
-    #     f">• status: `({message_info.status}`\n"
-    #     f">• user: `{message_info.user}`\n"
-    #     f">• project: `{message_info.project_id}`\n"
-    #     f">:cloud: <{IAM_URL.format(message_info.project_id)}|View in Cloud Console>\n"
-    # )
 
     return {"mrkdown": True, "text": message_template}
 
@@ -128,11 +122,15 @@ def send_slack_alert(event, context):
 
 
 if __name__ == "__main__":
-    # TODO: iterate over all files under test_resources dir and load them.
-    with open("test_resources/external_user_policy_change.json", "rb") as json_file:
-        # Simulate inbound pubsub message by base64-encoding the JSON string on the 'data' field.
-        send_slack_alert(event={"data": base64.b64encode(json_file.read())}, context={})
+    import yaml
+    import pathlib
 
-    with open("test_resources/duplicate_snapshot_error.json", "rb") as json_file:
-        # Simulate inbound pubsub message by base64-encoding the JSON string on the 'data' field.
-        send_slack_alert(event={"data": base64.b64encode(json_file.read())}, context={})
+    with open("env.yaml", 'r') as stream:
+        env = yaml.safe_load(stream)
+        slack_webhook = env['SLACK_WEBHOOK']
+
+    resource_dir = pathlib.Path(__file__).parent.absolute().joinpath('test_resources')
+    for resource in resource_dir.glob('**/*.json'):
+        with resource.open("rb") as json_file:
+            # Simulate inbound pubsub message by base64-encoding the JSON string on the 'data' field.
+            send_slack_alert(event={"data": base64.b64encode(json_file.read())}, context={})

@@ -27,5 +27,7 @@ As a cloud function, `slack-alerts` is configured to subscribe to a Pub/Sub topi
     - `SLACK_WEBHOOK` is a key you must add to this file for posting to work:
         - `SLACK_WEBHOOK: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`
 - Run the command in `deploy.sh` to publish your cloud function, editing it as needed for your application.
-- For testing locally, add a `test_resources` directory under `slack-alerts`.
-    - Add any number of JSON files that each contain a single sample log entry exported from Logs Explorer.
+- For testing locally:
+    - Install `requirements.txt` using `pip install -r requirements.txt` (preferably in a virtualenv).
+    - Add a `test_resources` directory under `slack-alerts`.
+    - Add any number of JSON files to `test_resources` dir that each contain a single sample log entry exported from Logs Explorer.

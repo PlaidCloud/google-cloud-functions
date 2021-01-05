@@ -31,4 +31,4 @@ As a cloud function, `slack-alerts` is configured to subscribe to a Pub/Sub topi
     - Install `requirements.txt` using `pip install -r requirements.txt` (preferably in a virtualenv).
     - Add a `test_resources` directory under `slack-alerts`.
     - Add any number of JSON files to `test_resources` dir that each contain a single sample log entry exported from Logs Explorer.
-    - run `python main.py`
+    - Run `python main.py`.
